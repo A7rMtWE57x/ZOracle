@@ -7,9 +7,17 @@ Template was created based on the official Oracle Template.
 Querys have been rewritten to work on older Oracle Database versions (tested on 11g).   
 Items have been recreated as discovered items to be able to support Oracle RAC.   
 
+Query string is limited to Zabbix Macros limit wich is 2048 chars.
 
 
+Build:   
+    git clone https://github.com/A7rMtWE57x/ZOracle.git   
+    cd ZOracle   
+    go build   
 
+
+To configure just grab zoracle binary and configure in the zabbix_agent2.conf
+Plugins.zoracle.System.Path=/home/some_user/zabbixexternalplugingo/zoracle
 
 
 
