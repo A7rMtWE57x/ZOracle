@@ -20,7 +20,7 @@ Items have been recreated as discovered items to be able to support Oracle RAC.
 The Zabbix agent 2 configuration file is used to configure plugins.
       
 ## Supported keys
-**oracle.custom.query[\<commonParams\>,query[,args...]]** — Returns result of a custom query.  
+**oracle.custom.query[<commonParams\>,query[,args...]]** — Returns result of a custom query.  
 *Parameters:*  
 query (required) — sql query to execute.  
 args (optional) — one or more arguments to pass to a query.
@@ -33,7 +33,10 @@ So, you can execute them:
 You can pass as many parameters to a query as you need.   
 The syntax for placeholder parameters uses ":#", where "#" is an index number of a parameter.   
 
-**oracle.ping[\<commonParams\>]** — Tests if connection is alive or not.  
+Best approarch is to create a macro with the query string and use the macro on item key.
+
+
+**oracle.ping[<commonParams\>]** — Tests if connection is alive or not.  
 *Returns:*
 - "1" if a connection is alive.
 - otherwise return the error as string. Ex: ORA-12545: Connect failed because target host or object does not exist.
