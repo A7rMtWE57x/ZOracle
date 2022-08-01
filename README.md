@@ -1,11 +1,21 @@
-# Oracle Custom External Plugin
-The purpose of this External Plugin is to provide the ability to write custom querys on zabbix server size.
-All querys are explicit in Template Macros.
-Template was created based on the official Oracle Template.
-Querys have been rewritten to work on older Oracle Database versions (tested on 11g).
-Items have been recreated as discovered items to be able to support Oracle RAC.
+# ZOracle
 
-[Oracle template.](https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/oracle_agent2) 
+# Oracle Custom External Plugin
+The purpose of this External Plugin is to provide the ability to write custom querys on zabbix server size.   
+All querys are explicit in Template Macros.   
+Template was created based on the official Oracle Template.   
+Querys have been rewritten to work on older Oracle Database versions (tested on 11g).   
+Items have been recreated as discovered items to be able to support Oracle RAC.   
+
+
+
+
+
+
+
+
+**Original Oracle Template**
+[Link to Original Oracle template.](https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/oracle_agent2) 
 
 ## Requirements
 * Zabbix Agent 2
@@ -27,8 +37,8 @@ args (optional) — one or more arguments to pass to a query.
 
 So, you can execute them:
   
-    oracle.custom.query[<commonParams>,'select 0 from dual']  
-    oracle.custom.query[<commonParams>,'SELECT amount FROM payment WHERE user = :1 AND service_id = :2 AND date = :3',"John Doe",1,"10/25/2020"]
+    zoracle.custom.query[<commonParams>,'select 0 from dual']  
+    zoracle.custom.query[<commonParams>,'SELECT amount FROM payment WHERE user = :1 AND service_id = :2 AND date = :3',"John Doe",1,"10/25/2020"]
           
 You can pass as many parameters to a query as you need.   
 The syntax for placeholder parameters uses ":#", where "#" is an index number of a parameter.   
