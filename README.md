@@ -1,13 +1,12 @@
 # ZOracle
 
 # Oracle Custom External Plugin
-The purpose of this External Plugin is to provide the ability to write custom querys on zabbix server size.   
-All querys are explicit in Template Macros.   
-Template was created based on the official Oracle Template.   
-Querys have been rewritten to work on older Oracle Database versions (tested on 11g).   
-Items have been recreated as discovered items to be able to support Oracle RAC.   
-
-Query string is limited to Zabbix Macros limit wich is 2048 chars.
+* The purpose of this External Plugin is to provide the ability to write custom querys on zabbix server size.   
+* All querys are explicit in Template Macros.   
+* Template was created based on the official Oracle Template.   
+* Querys have been rewritten to work on older Oracle Database versions (tested on 11g).   
+* Items have been recreated as discovered items to be able to support Oracle RAC.   
+* Query string is limited to Zabbix Macros limit wich is 2048 chars.
 
 
 Build:   
