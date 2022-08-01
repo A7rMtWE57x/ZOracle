@@ -1,0 +1,3333 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-08-01T16:04:06Z'
+  groups:
+    -
+      uuid: 748ad4d098d447d492bb935c907f652f
+      name: Templates/Databases
+  templates:
+    -
+      uuid: 183da9b90fe5489294aa97e5d13f7230
+      template: 'zoracle by Zabbix agent 2'
+      name: 'zoracle by Zabbix agent 2'
+      description: 'Template tooling version used: 0.41'
+      groups:
+        -
+          name: Templates/Databases
+      items:
+        -
+          uuid: 4224fc4b2d264d98acabae97703e7a6d
+          name: 'Oracle: FRA, Number of files'
+          type: DEPENDENT
+          key: oracle.fra_number_of_files
+          delay: '0'
+          history: 7d
+          description: 'Number of files in the fast recovery area'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[?(@.METRIC=="number_of_files")].VALUE'
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          tags:
+            -
+              tag: component
+              value: fra
+        -
+          uuid: d739e9b1367142348132640ebb0a0c07
+          name: 'Oracle: FRA, Number of restore points'
+          type: DEPENDENT
+          key: oracle.fra_restore_point
+          delay: '0'
+          history: 7d
+          value_type: FLOAT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[?(@.METRIC=="restore_point")].VALUE'
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          tags:
+            -
+              tag: component
+              value: fra
+        -
+          uuid: f788894fb88748cfbfe665864b9fbdeb
+          name: 'Oracle: FRA, Space limit'
+          type: DEPENDENT
+          key: oracle.fra_space_limit
+          delay: '0'
+          history: 7d
+          units: B
+          description: 'Maximum amount of disk space (in bytes) that the database can use for the fast recovery area.'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[?(@.METRIC=="space_limit")].VALUE'
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          tags:
+            -
+              tag: component
+              value: fra
+        -
+          uuid: 66a87d320d2743eba41c05013908a5e7
+          name: 'Oracle: FRA, Space reclaimable'
+          type: DEPENDENT
+          key: oracle.fra_space_reclaimable
+          delay: '0'
+          history: 7d
+          units: B
+          description: 'Total amount of disk space (in bytes) that can be created by deleting obsolete, redundant, and other low priority files from the fast recovery area.'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[?(@.METRIC=="space_reclaimable")].VALUE'
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          tags:
+            -
+              tag: component
+              value: fra
+        -
+          uuid: b2a2ee049228443f8c679842c005256e
+          name: 'Oracle: FRA, Used space'
+          type: DEPENDENT
+          key: oracle.fra_space_used
+          delay: '0'
+          history: 7d
+          units: B
+          description: 'Amount of disk space (in bytes) used by fast recovery area files created in current and all previous fast recovery areas.'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[?(@.METRIC=="space_used")].VALUE'
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          tags:
+            -
+              tag: component
+              value: fra
+        -
+          uuid: d5ab30e99bf8438b96ec03f482f27601
+          name: 'Oracle: FRA, Usable space in %'
+          type: DEPENDENT
+          key: oracle.fra_usable_pct
+          delay: '0'
+          history: 7d
+          value_type: FLOAT
+          units: '%'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[?(@.METRIC=="usable_pct")].VALUE'
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          tags:
+            -
+              tag: component
+              value: fra
+        -
+          uuid: 39b04ab3fcff4aaeab9a2b818b13441f
+          name: 'Oracle: Get archive log info'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.ARCHIVE.INFO}"]'
+          delay: 5m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: archive-log
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 82e80b6b8e7940e6b5e9d903c6069a4b
+          name: 'Oracle: Get CDB and No-CDB info'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.CDB.INFO}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get info about CDB and  No-CDB databases on instansce.'
+          tags:
+            -
+              tag: component
+              value: cdb
+            -
+              tag: component
+              value: raw
+        -
+          uuid: a5d9f516610d4624843447d4bdbd1b7f
+          name: 'Oracle: Datafiles stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DATAFILES.STATS}"]'
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: datafiles
+            -
+              tag: component
+              value: raw
+        -
+          uuid: b18c9fb17dee4e81a8f709e5eaa5be27
+          name: 'Oracle: Get ASM stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DISKGROUPS.STATS}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get ASM disk groups stats.'
+          tags:
+            -
+              tag: component
+              value: asm
+            -
+              tag: component
+              value: raw
+        -
+          uuid: df5a3e112f284dc8b62a3e7cca48ac5b
+          name: 'Oracle: Get FRA stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.FRA.STATS}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get FRA statistics.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 689db541f9e244b587ac04e65322b5cb
+          name: 'Oracle: Get instance state'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'The item gets state of the current instance.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: a7e2ff35e96c4193a350c475f3ae01c9
+          name: 'Oracle: Get PDB info'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PDB.INFO}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get info about PDB databases on instansce.'
+          tags:
+            -
+              tag: component
+              value: pdb
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 01ade379fb34465b875e4d6df8b41a15
+          name: 'Oracle: Get PGA stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PGA.STATS}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get PGA statistics.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: c5e090c63c464ec882f24846ff94d93a
+          name: 'Oracle: Redo logs info'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.REDOLOG.INFO}"]'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 1de7fb67823f4c10a19b03f404b4baf9
+          name: 'Oracle: Get sessions stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get sessions statistics. {$ORACLE.SESSION.LOCK.MAX.TIME} -- maximum seconds in the current wait condition for counting long time locked sessions. Default: 600 seconds.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 49ec2e6960674c549d9893db50e37209
+          name: 'Oracle: Get SGA stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get SGA statistics.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 0f1fbe523a484d17930c3d18f2924d04
+          name: 'Oracle: Get system metrics'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+          delay: 0;m0-59
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'The item gets system metric values.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 64b3c3c6b2f1446c938075938d5edd92
+          name: 'Oracle: Get system parameters'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.PARAMS}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get a set of system parameter values.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: dac5be91ba5345729ab500f65954aad9
+          name: 'Oracle: Get Tablespaces'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.DISCOVERY}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Scanning tablespaces in DBMS.'
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 5ac231cdc5714b7bb8797778851c4f27
+          name: 'Oracle: Get tablespaces stats'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'Get tablespaces stats.'
+          tags:
+            -
+              tag: component
+              value: raw
+            -
+              tag: component
+              value: tablespaces
+        -
+          uuid: b229eac22c4648d3bcb171c2c8f8ad9e
+          name: 'Oracle: User''s expire password'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.USER.INFO}","{$ORACLE.USER}"]'
+          history: 7d
+          value_type: FLOAT
+          units: days
+          description: 'The number of days before zabbix account password expired.'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.[0].EXP_PASSWD_DAYS_BEFORE'
+          tags:
+            -
+              tag: component
+              value: application
+          triggers:
+            -
+              uuid: 6b844d6c3aa3472280717d8fa231114c
+              expression: 'last(/zoracle by Zabbix agent 2/zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.USER.INFO}","{$ORACLE.USER}"])  < {$ORACLE.EXPIRE.PASSWORD.MIN.WARN}'
+              name: 'Oracle: Zabbix account will expire soon'
+              event_name: 'Oracle: Zabbix account will expire soon (under {$ORACLE.EXPIRE.PASSWORD.MIN.WARN} days)'
+              priority: WARNING
+              description: 'Password for zabbix user in the database will expire soon.'
+              tags:
+                -
+                  tag: scope
+                  value: notice
+        -
+          uuid: f320aa9b06f34d47ad1a3b96512ba68d
+          name: 'Oracle: Ping'
+          type: ZABBIX_ACTIVE
+          key: 'zoracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          delay: 30s
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          description: 'Test the connection to Oracle Database state'
+          preprocessing:
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 10m
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: health
+          triggers:
+            -
+              uuid: e707d6b9e0d74e5c98f22d64cf0a9c8b
+              expression: 'find(/zoracle by Zabbix agent 2/zoracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],,"like","ORA")<>0'
+              name: 'Oracle: Connection to database is unavailable'
+              priority: DISASTER
+              description: 'Connection to Oracle Database is currently unavailable.'
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: availability
+            -
+              uuid: 2758c4c9d93e4638a3e4ac5f695b30a8
+              expression: 'last(/zoracle by Zabbix agent 2/zoracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"])=0'
+              name: 'Oracle: Connection to database is unavailable'
+              priority: DISASTER
+              description: 'Connection to Oracle Database is currently unavailable.'
+              tags:
+                -
+                  tag: scope
+                  value: availability
+      discovery_rules:
+        -
+          uuid: 7886e32d0cbe4530b6fa29f3e618fb07
+          name: 'Archive log discovery'
+          type: DEPENDENT
+          key: oracle.archive.discovery
+          delay: '0'
+          description: 'Log archive destinations.'
+          item_prototypes:
+            -
+              uuid: 2a9ac47d1e8549449c7fcbe893400477
+              name: 'Archivelog ''{#DEST_NAME}'': Error'
+              type: DEPENDENT
+              key: 'oracle.archivelog_error["{#INST_ID}","{#DEST_NAME}"]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              description: 'Displays the error text'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.DEST_NAME=="{#DEST_NAME}")].ERROR'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.ARCHIVE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: archive-log
+                -
+                  tag: destination
+                  value: '{#DEST_NAME}'
+            -
+              uuid: a6189472886c451d92d145c474b49146
+              name: 'Archivelog ''{#DEST_NAME}'': Last sequence'
+              type: DEPENDENT
+              key: 'oracle.archivelog_log_sequence["{#INST_ID}","{#DEST_NAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Identifies the sequence number of the last archived redo log to be archived'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.DEST_NAME=="{#DEST_NAME}")].LOG_SEQUENCE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.ARCHIVE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: archive-log
+                -
+                  tag: destination
+                  value: '{#DEST_NAME}'
+            -
+              uuid: e99b335d055640d39b1e607a4a6506b1
+              name: 'Archivelog ''{#DEST_NAME}'': Status'
+              type: DEPENDENT
+              key: 'oracle.archivelog_log_status["{#INST_ID}","{#DEST_NAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Identifies the current status of the destination: 1 - ''Valid'', 2 - ''Deferred'',3 - ''Error'', 0 - ''Unknown'''
+              valuemap:
+                name: 'Oracle Archivelog status'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.DEST_NAME=="{#DEST_NAME}")].STATUS'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.ARCHIVE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: archive-log
+                -
+                  tag: destination
+                  value: '{#DEST_NAME}'
+              trigger_prototypes:
+                -
+                  uuid: c4229d7a23b742f88f7f309e1ca4e3b9
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.archivelog_log_status["{#INST_ID}","{#DEST_NAME}"])<2'
+                  name: 'Archivelog ''{#DEST_NAME}'': Log Archive is not valid'
+                  priority: HIGH
+                  description: 'ARL destination not in 3 - Valid or 2 - Deferred.'
+                  tags:
+                    -
+                      tag: scope
+                      value: availability
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.ARCHIVE.INFO}"]'
+          lld_macro_paths:
+            -
+              lld_macro: '{#DEST_NAME}'
+              path: $.DEST_NAME
+            -
+              lld_macro: '{#INST_ID}'
+              path: $.INST_ID
+        -
+          uuid: e356b083babf4b248ea3a174c9503439
+          name: 'Database discovery'
+          type: DEPENDENT
+          key: oracle.database.discovery
+          delay: '0'
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#DBNAME}'
+                value: '{$ORACLE.DBNAME.MATCHES}'
+                formulaid: A
+              -
+                macro: '{#DBNAME}'
+                value: '{$ORACLE.DBNAME.NOT_MATCHES}'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          description: 'Scanning databases in DBMS.'
+          item_prototypes:
+            -
+              uuid: 96ee1053696f4a0f865b933caee5e27f
+              name: 'Oracle Database ''{#DBNAME}'': Force logging'
+              type: DEPENDENT
+              key: 'oracle.db_force_logging["{#DBNAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Indicates whether the database is under force logging mode (YES) or not (NO)'
+              valuemap:
+                name: 'Oracle force log status'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $..FORCE_LOGGING
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 15m
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.CDB.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: database
+                -
+                  tag: database
+                  value: '{#DBNAME}'
+                -
+                  tag: type
+                  value: '{#TYPE}'
+            -
+              uuid: 2bcfd09c462148d592ee8bb44feba8a8
+              name: 'Oracle Database ''{#DBNAME}'': Log mode'
+              type: DEPENDENT
+              key: 'oracle.db_log_mode["{#DBNAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Archive log mode, 0 - ''NOARCHIVELOG'', 1 - ''ARCHIVELOG'', 2 - ''MANUAL'''
+              valuemap:
+                name: 'Oracle log mode'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $..LOG_MODE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 15m
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.CDB.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: database
+                -
+                  tag: database
+                  value: '{#DBNAME}'
+                -
+                  tag: type
+                  value: '{#TYPE}'
+            -
+              uuid: 5bfac6b2b43a4463ba638931e19a9204
+              name: 'Oracle Database ''{#DBNAME}'': Open status'
+              type: DEPENDENT
+              key: 'oracle.db_open_mode["{#DBNAME}"]'
+              delay: '0'
+              history: 7d
+              description: '1 - ''MOUNTED'', 2 - ''READ WRITE'', 3 - ''READ ONLY'', 4 - ''READ ONLY WITH APPLY'' (A physical standby database is open in real-time query mode)'
+              valuemap:
+                name: 'Oracle DB open status'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $..OPEN_MODE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 15m
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.CDB.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: database
+                -
+                  tag: database
+                  value: '{#DBNAME}'
+                -
+                  tag: type
+                  value: '{#TYPE}'
+              trigger_prototypes:
+                -
+                  uuid: 6e5fe188ab394f2db9382d43d308778f
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.db_open_mode["{#DBNAME}"],#1)<>last(/zoracle by Zabbix agent 2/oracle.db_open_mode["{#DBNAME}"],#2)'
+                  name: 'Oracle Database ''{#DBNAME}'': Open status has changed'
+                  event_name: 'Oracle Database ''{#DBNAME}'': Open status has changed (new value received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle DB open status has changed. Ack to close.'
+                  manual_close: 'YES'
+                  dependencies:
+                    -
+                      name: 'Oracle Database ''{#DBNAME}'': Open status in mount mode'
+                      expression: 'last(/zoracle by Zabbix agent 2/oracle.db_open_mode["{#DBNAME}"])=1'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+                -
+                  uuid: 4b62d7402d7c4b75b0173153c0ccb225
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.db_open_mode["{#DBNAME}"])=1'
+                  name: 'Oracle Database ''{#DBNAME}'': Open status in mount mode'
+                  priority: WARNING
+                  description: 'The Oracle DB has a MOUNTED state.'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+            -
+              uuid: 0920adf6a465454da470cee45148720a
+              name: 'Oracle Database ''{#DBNAME}'': Role'
+              type: DEPENDENT
+              key: 'oracle.db_role["{#DBNAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Current role of the database, 1 - ''SNAPSHOT STANDBY'', 2 - ''LOGICAL STANDBY'', 3 - ''PHYSICAL STANDBY'', 4 - ''PRIMARY '', 5 -''FAR SYNC'''
+              valuemap:
+                name: 'Oracle DB role'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $..ROLE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 15m
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.CDB.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: database
+                -
+                  tag: database
+                  value: '{#DBNAME}'
+                -
+                  tag: type
+                  value: '{#TYPE}'
+              trigger_prototypes:
+                -
+                  uuid: 60a3e33cf44b41a1bbde0b683d7fed01
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.db_role["{#DBNAME}"],#1)<>last(/zoracle by Zabbix agent 2/oracle.db_role["{#DBNAME}"],#2)'
+                  name: 'Oracle Database ''{#DBNAME}'': Role has changed'
+                  event_name: 'Oracle Database ''{#DBNAME}'': Role has changed (new value received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle DB role has changed. Ack to close.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+          trigger_prototypes:
+            -
+              uuid: 5415951cd9f14ce1921903d5a27a89ad
+              expression: 'last(/zoracle by Zabbix agent 2/oracle.db_force_logging["{#DBNAME}"]) = 0 and last(/zoracle by Zabbix agent 2/oracle.db_log_mode["{#DBNAME}"]) = 1'
+              name: 'Oracle Database ''{#DBNAME}'': Force logging is deactivated for DB with active Archivelog'
+              priority: WARNING
+              description: 'Force Logging mode  - it is very important metric for Databases in ''ARCHIVELOG''. This feature allows to forcibly write all transactions to the REDO.'
+              tags:
+                -
+                  tag: scope
+                  value: performance
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.CDB.INFO}"]'
+          lld_macro_paths:
+            -
+              lld_macro: '{#DBNAME}'
+              path: $.NAME
+        -
+          uuid: 172f816e7edf439c82290bbdb943f551
+          name: 'ASM disk groups discovery'
+          type: DEPENDENT
+          key: oracle.diskgroups.discovery
+          delay: '0'
+          description: 'ASM disk groups'
+          item_prototypes:
+            -
+              uuid: bfcaf4fa7bce4b1ab9b4d83f7fa63f8a
+              name: 'ASM ''{#DG_NAME}'': Free size'
+              type: DEPENDENT
+              key: 'oracle.asm_free_size["{#DG_NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Free size of ASM disk group.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="{#DG_NAME}")].FREE_BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DISKGROUPS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: asm
+                -
+                  tag: disk-group
+                  value: '{#DG_NAME}'
+            -
+              uuid: 4c631ddb31dd423ea3cc47fc428de771
+              name: 'ASM ''{#DG_NAME}'': Total size'
+              type: DEPENDENT
+              key: 'oracle.asm_total_size["{#DG_NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Total size of ASM disk group.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="{#DG_NAME}")].TOTAL_BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DISKGROUPS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: asm
+                -
+                  tag: disk-group
+                  value: '{#DG_NAME}'
+            -
+              uuid: de95e67ca5f9463e948a87374565ad18
+              name: 'ASM ''{#DG_NAME}'': Used Pct'
+              type: DEPENDENT
+              key: 'oracle.asm_used_pct["{#DG_NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Usage percent of ASM disk group.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="{#DG_NAME}")].USED_PCT'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DISKGROUPS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: asm
+                -
+                  tag: disk-group
+                  value: '{#DG_NAME}'
+              trigger_prototypes:
+                -
+                  uuid: 8d0c50b393024c2d9eb7402d7521b0a7
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.asm_used_pct["{#DG_NAME}"],5m)>{$ORACLE.ASM.USED.PCT.MAX.HIGH}'
+                  name: 'ASM ''{#DG_NAME}'': Disk group usage is too high'
+                  event_name: 'ASM ''{#DG_NAME}'': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.HIGH}% for 5m)'
+                  priority: HIGH
+                  description: 'Usage percent of ASM disk group is over {$ORACLE.ASM.USED.PCT.MAX.WARN}'
+                  tags:
+                    -
+                      tag: scope
+                      value: capacity
+                -
+                  uuid: d1d43fe201ff47ed97908b4100ea00c5
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.asm_used_pct["{#DG_NAME}"],5m)>{$ORACLE.ASM.USED.PCT.MAX.WARN}'
+                  name: 'ASM ''{#DG_NAME}'': Disk group usage is too high'
+                  event_name: 'ASM ''{#DG_NAME}'': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.WARN}% for 5m)'
+                  priority: WARNING
+                  description: 'Usage percent of ASM disk group is over {$ORACLE.ASM.USED.PCT.MAX.WARN}'
+                  dependencies:
+                    -
+                      name: 'ASM ''{#DG_NAME}'': Disk group usage is too high'
+                      expression: 'min(/zoracle by Zabbix agent 2/oracle.asm_used_pct["{#DG_NAME}"],5m)>{$ORACLE.ASM.USED.PCT.MAX.HIGH}'
+                  tags:
+                    -
+                      tag: scope
+                      value: capacity
+          graph_prototypes:
+            -
+              uuid: 53f7d016e9214d8caff26b1e4dbe1ccd
+              name: 'ASM ''{#DG_NAME}'': ASM disk group ''{#DG_NAME}'''
+              graph_items:
+                -
+                  color: 1A7C11
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.asm_free_size["{#DG_NAME}"]'
+                -
+                  sortorder: '1'
+                  color: 2774A4
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.asm_total_size["{#DG_NAME}"]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DISKGROUPS.STATS}"]'
+          lld_macro_paths:
+            -
+              lld_macro: '{#DG_NAME}'
+              path: $.NAME
+        -
+          uuid: 22812ae8688d4a7dbd3b0c37233c7885
+          name: 'Instance discovery'
+          type: DEPENDENT
+          key: oracle.instance_discovery
+          delay: '0'
+          description: |
+            Instance discovery
+            (the reason this is a dicovery rule instead of a normal item it's because this could be a RAC Database)
+          item_prototypes:
+            -
+              uuid: fbcb6253b7cd4f039532c1c19e99a1f1
+              name: 'Oracle: Active parallel sessions'
+              type: DEPENDENT
+              key: 'oracle.active_parallel_sessions[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The number of active parallel sessions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Active Parallel Sessions" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: sessions
+            -
+              uuid: 897c0ea1417c451ba7a33c771b7fbe57
+              name: 'Oracle: Active serial sessions'
+              type: DEPENDENT
+              key: 'oracle.active_serial_sessions[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The number of active serialsessions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Active Serial Sessions" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: sessions
+            -
+              uuid: f78f2b5f9b2f4877944ea8f9df66518e
+              name: 'Oracle: Average active sessions'
+              type: DEPENDENT
+              key: 'oracle.active_sessions[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The average active sessions at a point in time. It is the number of sessions that are either working or waiting.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Average Active Sessions" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: sessions
+            -
+              uuid: b55cd52c95004e8ab955ef5d85b49874
+              name: 'Oracle: Buffer cache hit ratio'
+              type: DEPENDENT
+              key: 'oracle.buffer_cache_hit_ratio[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Ratio of buffer cache hits. (LogRead - PhyRead)/LogRead'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Buffer Cache Hit Ratio" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+            -
+              uuid: e2e7bb8ffc3b4ce6841e2f667b1bd089
+              name: 'Oracle: Global cache blocks corrupted'
+              type: DEPENDENT
+              key: 'oracle.cache_blocks_corrupt[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: Rps
+              description: 'Enqueue timeouts per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Global Cache Blocks Corrupted" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+            -
+              uuid: eff3b4aa6fe84e7c8bf518c0a58d62c0
+              name: 'Oracle: Global cache blocks lost'
+              type: DEPENDENT
+              key: 'oracle.cache_blocks_lost[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: Rps
+              description: 'The number of global cache blocks lost'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Global Cache Blocks Lost" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+            -
+              uuid: af159c7c44034a2791f540bff490dbf1
+              name: 'Oracle: Cursor cache hit ratio'
+              type: DEPENDENT
+              key: 'oracle.cursor_cache_hit_ratio[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Ratio of cursor cache hits. CursorCacheHit/SoftParse'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Cursor Cache Hit Ratio" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+            -
+              uuid: 2ec83750e805400fa341ef7f8551abee
+              name: 'Oracle: Database CPU time ratio'
+              type: DEPENDENT
+              key: 'oracle.database_cpu_time_ratio[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Calculated by dividing the total CPU used by the database by the Oracle time model statistic DB time.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Database CPU Time Ratio" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+            -
+              uuid: 355bfc2d7c9c44efbaa7fe9e32f6292c
+              name: 'Oracle: Database wait time ratio'
+              type: DEPENDENT
+              key: 'oracle.database_wait_time_ratio[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Wait time: the time that the server process spends waiting for available shared resources (to be released by other server processes) such as latches, locks, data buffers, and so on'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Database Wait Time Ratio" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 2d69f3a147974cfaab735b9f1a38f62d
+              name: 'Oracle: Datafiles count'
+              type: DEPENDENT
+              key: 'oracle.datafiles.count[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              description: 'Current number of datafiles.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}")].DATAFILE_NUM'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DATAFILES.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: availability
+            -
+              uuid: baee289e629847219a9dc674cc022538
+              name: 'Oracle: Datafiles limit'
+              type: DEPENDENT
+              key: 'oracle.db_files_limit[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              description: 'Max allowable number of  datafile.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="db_files" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.PARAMS}"]'
+              tags:
+                -
+                  tag: component
+                  value: datafiles
+            -
+              uuid: 45193b88916a4846aeff482a0a025ceb
+              name: 'Oracle: Disk sort per second'
+              type: DEPENDENT
+              key: 'oracle.disk_sorts[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'The number of sorts going to disk per second'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Disk Sort Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: d5a90c413d69472193998843f94332a8
+              name: 'Oracle: Enqueue timeouts per second'
+              type: DEPENDENT
+              key: 'oracle.enqueue_timeouts_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Enqueue timeouts per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Enqueue Timeouts Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 85c74eb5c6284c5181773f15394ae0bf
+              name: 'Oracle: GC CR block received per second'
+              type: DEPENDENT
+              key: 'oracle.gc_cr_block_received_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Rps
+              description: 'Enqueue timeouts per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="GC CR Block Received Per Second" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+            -
+              uuid: 54e2b994e1604745bfc661c32b2c5fca
+              name: 'Oracle: Instance Archiver State'
+              type: DEPENDENT
+              key: 'oracle.instance.archiver[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: 'Oracle archiver state'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].ARCHIVER'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+              trigger_prototypes:
+                -
+                  uuid: a229e431dee74cb7a8686cee42deca3b
+                  expression: |
+                    last(/zoracle by Zabbix agent 2/oracle.instance.archiver[{#INSTANCE_NAME}],#1)<>last(/zoracle by Zabbix agent 2/oracle.instance.archiver[{#INSTANCE_NAME}],#2)
+                    and 
+                    length(last(/zoracle by Zabbix agent 2/oracle.instance.archiver[{#INSTANCE_NAME}]))>0
+                  name: 'Oracle: Instance {#INSTANCE_NAME} Archiver has changed'
+                  event_name: 'Oracle: Instance {#INSTANCE_NAME} archiver has changed (new archiver state received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle Instance Archiver has changed. Ack to close.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+            -
+              uuid: 62abb4a9463b421dba93618a1442ea1e
+              name: 'Oracle: Instance role'
+              type: DEPENDENT
+              key: 'oracle.instance.role[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              description: 'Indicates whether the instance is an active instance or an inactive secondary instance.'
+              valuemap:
+                name: 'Oracle instance role'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].ROLE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 9b92e602ddfc448ba9865e3ccf37535a
+              name: 'Oracle: Instance status'
+              type: DEPENDENT
+              key: 'oracle.instance.status[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              description: 'Status of the instance.'
+              valuemap:
+                name: 'Oracle instance status'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].STATUS'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 9e3558927eb248cfbfe0ff8bf4907bae
+              name: 'Oracle: Instance uptime'
+              type: DEPENDENT
+              key: 'oracle.instance.uptime[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: s
+              description: 'Oracle instance uptime in seconds.'
+              valuemap:
+                name: 'Oracle instance role'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].UPTIME'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+              trigger_prototypes:
+                -
+                  uuid: 73da467f42a24a178f98313c739ab272
+                  expression: 'nodata(/zoracle by Zabbix agent 2/oracle.instance.uptime[{#INSTANCE_NAME}],30m)=1'
+                  name: 'Oracle: Instance {#INSTANCE_NAME} Failed to fetch info data'
+                  priority: INFO
+                  description: 'Zabbix has not received data for items for the last 5 minutes. The database might be unavailable for connecting.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: availability
+                -
+                  uuid: 26f2308bd4154b91af46ff65462e5ede
+                  expression: |
+                    last(/zoracle by Zabbix agent 2/oracle.instance.uptime[{#INSTANCE_NAME}],#1)<last(/zoracle by Zabbix agent 2/oracle.instance.uptime[{#INSTANCE_NAME}],#2)
+                    and 
+                    length(last(/zoracle by Zabbix agent 2/oracle.instance.uptime[{#INSTANCE_NAME}]))>0
+                  recovery_mode: NONE
+                  name: 'Oracle: Instance {#INSTANCE_NAME} has been restarted'
+                  priority: INFO
+                  description: 'Oracle Instance has restared. Ack to close.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+            -
+              uuid: 674c4e77e7224d379e131796b8f36664
+              name: 'Oracle: Instance hostname'
+              type: DEPENDENT
+              key: 'oracle.instance_hostname[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              description: 'Name of the host machine.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].HOST_NAME'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+              trigger_prototypes:
+                -
+                  uuid: 69e0af037f46432a9f917ff5018e389e
+                  expression: |
+                    last(/zoracle by Zabbix agent 2/oracle.instance_hostname[{#INSTANCE_NAME}],#1)<>last(/zoracle by Zabbix agent 2/oracle.instance_hostname[{#INSTANCE_NAME}],#2)
+                    and 
+                    length(last(/zoracle by Zabbix agent 2/oracle.instance_hostname[{#INSTANCE_NAME}]))>0
+                  name: 'Oracle: Instance {#INSTANCE_NAME} hostname has changed'
+                  event_name: 'Oracle: Instance {#INSTANCE_NAME} hostname has changed (new hostname received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle DB Instance hostname has changed. Ack to close.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+            -
+              uuid: 88b4073680c04f79bf7b1ebb8aa6f0fa
+              name: 'Oracle: Instance name'
+              type: DEPENDENT
+              key: 'oracle.instance_name[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              description: 'Name of the host machine.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].INSTANCE_NAME'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 79bff01da808496ea75415c7cb1c9673
+              name: 'Oracle: Library cache hit ratio'
+              type: DEPENDENT
+              key: 'oracle.library_cache_hit_ratio[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Ratio of library cache hits. Hits/Pins'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Library Cache Hit Ratio" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+            -
+              uuid: b4b60cc332e849f4acf6b774c24c9763
+              name: 'Oracle: Logons per second'
+              type: DEPENDENT
+              key: 'oracle.logons_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Rps
+              description: 'The number of logon attempts.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Logons Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 8db38ea797af454ba6b26e54012f72f3
+              name: 'Oracle: Long table scans per second'
+              type: DEPENDENT
+              key: 'oracle.long_table_scans_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: Rps
+              description: 'The number of long table scans per second. A table is considered ''long'' if the table is not cached and if its high-water mark is greater than 5 blocks.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Long Table Scans Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 1dafdc41177c41d2a4878e047b904610
+              name: 'Oracle: Memory sorts ratio'
+              type: DEPENDENT
+              key: 'oracle.memory_sorts_ratio[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The percentage of sorts (from ORDER BY clauses or index building) that are done to disk vs in-memory.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Memory Sorts Ratio" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: b72ca3fd58f34657abfe8cbdae641e6b
+              name: 'Oracle: PGA, Global memory bound'
+              type: DEPENDENT
+              key: 'oracle.pga_global_bound[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Maximum size of a work area executed in automatic mode.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="global memory bound" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: component
+                  value: pga
+            -
+              uuid: e85bdccae0844afbb257b1b9c6ba3843
+              name: 'Oracle: PGA, Aggregate target parameter'
+              type: DEPENDENT
+              key: 'oracle.pga_target[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Current value of the PGA_AGGREGATE_TARGET initialization parameter. If this parameter is not set, then its value is 0 and automatic management of PGA memory is disabled.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="aggregate PGA target parameter" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: component
+                  value: pga
+            -
+              uuid: 6923f4721530466bbfbf4a49979fc1e8
+              name: 'Oracle: Physical reads per second'
+              type: DEPENDENT
+              key: 'oracle.physical_reads_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Rps
+              description: 'Reads per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Physical Reads Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: disk
+            -
+              uuid: 2ff00e537ae14c7e8a170a1554f427a7
+              name: 'Oracle: Physical reads bytes per second'
+              type: DEPENDENT
+              key: 'oracle.physical_read_bytes_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Bps
+              description: 'Read bytes per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Physical Read Bytes Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: disk
+            -
+              uuid: ad17b6238ffe482c8254ce6f2cc0b043
+              name: 'Oracle: Physical writes per second'
+              type: DEPENDENT
+              key: 'oracle.physical_writes_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Rps
+              description: 'Writes per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Physical Writes Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: disk
+            -
+              uuid: d374adc530d64097a28f9742a62e5d08
+              name: 'Oracle: Physical writes bytes per second'
+              type: DEPENDENT
+              key: 'oracle.physical_write_bytes_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Bps
+              description: 'Write bytes per second.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Physical Write Bytes Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: disk
+            -
+              uuid: 2cc5a40247a24728902a537fa30c7963
+              name: 'Oracle: Number of processes'
+              type: DEPENDENT
+              key: 'oracle.processes_limit[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              description: 'Max user processes.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="processes" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.PARAMS}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+            -
+              uuid: 9bce556514af4bcca244bb2f7b6405a9
+              name: 'Oracle: Redo logs Active'
+              type: DEPENDENT
+              key: 'oracle.redologs.active[{#INSTANCE_NAME}]'
+              delay: '0'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.STATUS=="ACTIVE")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.REDOLOG.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 15053485dbc447d4988dc7cdd27c7ddd
+              name: 'Oracle: Redo logs Current'
+              type: DEPENDENT
+              key: 'oracle.redologs.current[{#INSTANCE_NAME}]'
+              delay: '0'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.STATUS=="CURRENT")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.REDOLOG.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 91b304fd999849c5b3315832067d3284
+              name: 'Oracle: Redo logs Inactive'
+              type: DEPENDENT
+              key: 'oracle.redologs.inactive[{#INSTANCE_NAME}]'
+              delay: '0'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.STATUS=="INACTIVE")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.REDOLOG.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: e5667eda5bdd47bd819b08bda452bc6c
+              name: 'Oracle: Redo logs Unused'
+              type: DEPENDENT
+              key: 'oracle.redologs.unused[{#INSTANCE_NAME}]'
+              delay: '0'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INST_ID=="{#INST_ID}" && @.STATUS=="UNUSED")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.REDOLOG.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 3c998c5fd5994655ab0c82302eda17c2
+              name: 'Oracle: Rows per sort'
+              type: DEPENDENT
+              key: 'oracle.rows_per_sort[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The average number of rows per sort for all types of sorts performed.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Rows Per Sort" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 93bdae8a396945179dfc7c6b4fa9e38a
+              name: 'Oracle: SQL service response time'
+              type: DEPENDENT
+              key: 'oracle.service_response_time[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: s
+              description: 'SQL service response time in seconds.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="SQL Service Response Time" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '0.01'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 7d84af537eef46158cc732c75c9a612a
+              name: 'Oracle: Active background sessions'
+              type: DEPENDENT
+              key: 'oracle.session_active_background[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The number of active background sessions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="active_background" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+            -
+              uuid: 495633f3a44244f8970ab49773421b7b
+              name: 'Oracle: Active user sessions'
+              type: DEPENDENT
+              key: 'oracle.session_active_user[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The number of active user sessions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="active_user" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+            -
+              uuid: ea10ab004fba4e359cc6ec42695d48f6
+              name: 'Oracle: Sessions concurrency'
+              type: DEPENDENT
+              key: 'oracle.session_concurrency_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The percentage of concurrency. Concurrency is a DB behavior when different transactions request to change the same resource - in case of modifying data transactions sequentially block temporarily the right to change data, the rest of the transactions are waiting for access. In the case when access for resource is locked for a long time, then the concurrency grows (like the transaction queue) and this often has an extremely negative impact on performance. A high contention value does not indicate the root cause of the problem, but is a signal to search for it.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="concurrency_rate" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '["0"]'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+            -
+              uuid: d5556e7e47214696840a5bb6d9530e15
+              name: 'Oracle: Session count'
+              type: DEPENDENT
+              key: 'oracle.session_count[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'Session count.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="total" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+            -
+              uuid: 98937e1b56ae45a5a79fe1a0cbf7be07
+              name: 'Oracle: Inactive user sessions'
+              type: DEPENDENT
+              key: 'oracle.session_inactive_user[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'The number of inactive user sessions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="inactive_user" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+            -
+              uuid: f28cea0fc6fb4ff38a467ca0783a472b
+              name: 'Oracle: Sessions limit'
+              type: DEPENDENT
+              key: 'oracle.session_limit[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              description: 'User and system sessions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="sessions" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.PARAMS}"]'
+              tags:
+                -
+                  tag: component
+                  value: sessions
+            -
+              uuid: 318a8cc7129f4ae383e32f216978ccac
+              name: 'Oracle: Sessions lock rate'
+              type: DEPENDENT
+              key: 'oracle.session_lock_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'The percentage of locked sessions. Locks are mechanisms that prevent destructive interaction between transactions accessing the same resource—either user objects such as tables and rows or system objects not visible to users, such as shared data structures in memory and data dictionary rows.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="lock_rate" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+              trigger_prototypes:
+                -
+                  uuid: 66929f0db91e49518d5bfe2657e60395
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.session_lock_rate[{#INSTANCE_NAME}],5m) > {$ORACLE.SESSIONS.LOCK.MAX.WARN}'
+                  name: 'Oracle: Too many locked sessions'
+                  event_name: 'Oracle: Too many locked sessions (over {$ORACLE.SESSIONS.LOCK.MAX.WARN}% for 5 min)'
+                  priority: WARNING
+                  description: 'Number of locked sessions is over {$ORACLE.SESSIONS.LOCK.MAX.WARN}% of the running sessions.'
+                  tags:
+                    -
+                      tag: scope
+                      value: performance
+            -
+              uuid: 547e36d2ea8a4ff8af31021e0b08ee1e
+              name: 'Oracle: Sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME}s'
+              type: DEPENDENT
+              key: 'oracle.session_long_time_locked[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'Count of the prolongedly locked sessions. (You can change maximum session lock duration in seconds for query by {$ORACLE.SESSION.LOCK.MAX.TIME} macro. Default 600 sec)'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC=="long_time_locked" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SESSIONS.STATS}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
+              tags:
+                -
+                  tag: component
+                  value: session
+              trigger_prototypes:
+                -
+                  uuid: 771a140d1a9c47cda2c4b4680c8f13a4
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.session_long_time_locked[{#INSTANCE_NAME}],5m) > {$ORACLE.SESSION.LONG.LOCK.MAX.WARN}'
+                  name: 'Oracle: Too many sessions locked'
+                  event_name: 'Oracle: Too many sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME}s (over {$ORACLE.SESSION.LONG.LOCK.MAX.WARN} for 5 min)'
+                  priority: WARNING
+                  description: 'Number of sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME} seconds is too high. Long-term locks can negatively affect database performance, therefore, if they are detected, you should first find the most difficult queries from the database point of view and analyze possible resource leaks.'
+                  tags:
+                    -
+                      tag: scope
+                      value: performance
+            -
+              uuid: 81d5b2130de74281be76c7c8194b4f6f
+              name: 'Oracle: SGA, buffer cache'
+              type: DEPENDENT
+              key: 'oracle.sga_buffer_cache[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'The size of the cache of standard blocks.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.POOL=="buffer_cache" && @.INST_ID=="{#INST_ID}")].BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+                -
+                  tag: component
+                  value: sga
+            -
+              uuid: d3916915ea2447d3aa0b54f2e6df7591
+              name: 'Oracle: SGA, fixed'
+              type: DEPENDENT
+              key: 'oracle.sga_fixed[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'The fixed SGA is an internal housekeeping area.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.POOL=="fixed_sga" && @.INST_ID=="{#INST_ID}")].BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+                -
+                  tag: component
+                  value: sga
+            -
+              uuid: a74ea176148a48758abe51b098f24ca2
+              name: 'Oracle: SGA, java pool'
+              type: DEPENDENT
+              key: 'oracle.sga_java_pool[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Memory is allocated from the java pool.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.POOL=="java_pool" && @.INST_ID=="{#INST_ID}")].BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+                -
+                  tag: component
+                  value: sga
+            -
+              uuid: b53c6e2d068d44bf8a3abeb632b15484
+              name: 'Oracle: SGA, large pool'
+              type: DEPENDENT
+              key: 'oracle.sga_large_pool[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Memory is allocated from the large pool.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.POOL=="large_pool" && @.INST_ID=="{#INST_ID}")].BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+                -
+                  tag: component
+                  value: sga
+            -
+              uuid: 6f5b83488dd245e3a82336ab94d2f7f4
+              name: 'Oracle: SGA, log buffer'
+              type: DEPENDENT
+              key: 'oracle.sga_log_buffer[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'The number of bytes allocated for the redo log buffer.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.POOL=="log_buffer" && @.INST_ID=="{#INST_ID}")].BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+                -
+                  tag: component
+                  value: sga
+            -
+              uuid: 2807b2855c5e4b9ba3a0bd6f5b33d78f
+              name: 'Oracle: SGA, shared pool'
+              type: DEPENDENT
+              key: 'oracle.sga_shared_pool[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Memory is allocated from the shared pool.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.POOL=="shared_pool" && @.INST_ID=="{#INST_ID}")].BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: cache
+                -
+                  tag: component
+                  value: sga
+            -
+              uuid: d7ebd027f8db49be895914ec659c5be8
+              name: 'Oracle: Shared pool free %'
+              type: DEPENDENT
+              key: 'oracle.shared_pool_free[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Shared pool free memory percent. Free/Total'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Shared Pool Free %" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+            -
+              uuid: 7868cd96ec6240a9b4f9922ab3602726
+              name: 'Oracle: Total sorts per user call'
+              type: DEPENDENT
+              key: 'oracle.sorts_per_user_call[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              description: 'Total sorts per user call.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Total Sorts Per User Call" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: e050ee9a107f41f79d6da4370fd86585
+              name: 'Oracle: Temp space used'
+              type: DEPENDENT
+              key: 'oracle.temp_space_used[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: B
+              description: 'Temp space used.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="Temp Space Used" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 89a23dc5e1b14fe7acad716005e86f28
+              name: 'Oracle: PGA, Total allocated'
+              type: DEPENDENT
+              key: 'oracle.total_pga_allocated[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Current amount of PGA memory allocated by the instance. The Oracle Database attempts to keep this number below the value of the PGA_AGGREGATE_TARGET initialization parameter. However, it is possible for the PGA allocated to exceed that value by a small percentage and for a short period of time when the work area workload is increasing very rapidly or when PGA_AGGREGATE_TARGET is set to a small value.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="total PGA allocated" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: component
+                  value: pga
+            -
+              uuid: 9a7c33fedb67436cad51730282b3565d
+              name: 'Oracle: PGA, Total freeable'
+              type: DEPENDENT
+              key: 'oracle.total_pga_freeable[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Number of bytes of PGA memory in all processes that could be freed back to the operating system.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="total freeable PGA memory" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: component
+                  value: pga
+            -
+              uuid: 2c6b057aa4f2466fb781242bbc91a237
+              name: 'Oracle: PGA, Total inuse'
+              type: DEPENDENT
+              key: 'oracle.total_pga_used[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Indicates how much PGA memory is currently consumed by work areas. This number can be used to determine how much memory is consumed by other consumers of the PGA memory (for example, PL/SQL or Java).'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="total PGA inuse" && @.INST_ID=="{#INST_ID}")].VALUE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PGA.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: component
+                  value: pga
+            -
+              uuid: 21e361e0dc944392add4b3466905c3c0
+              name: 'Oracle: User rollbacks per second'
+              type: DEPENDENT
+              key: 'oracle.user_rollbacks_rate[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: Rps
+              description: 'The number of times that users manually issue the ROLLBACK statement or an error occurred during a user''s transactions.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.METRIC_NAME=="User Rollbacks Per Sec" && @.INST_ID=="{#INST_ID}")].VALUE'
+                  error_handler: DISCARD_VALUE
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.SYS.METRICS}",{$ZORACLE.SYS.METRICS.DURATION}]'
+              tags:
+                -
+                  tag: component
+                  value: application
+            -
+              uuid: 5ef0ead7315141749e89c13a99a01596
+              name: 'Oracle: Version'
+              type: DEPENDENT
+              key: 'oracle.version[{#INSTANCE_NAME}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              description: 'Oracle Server version.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.INSTANCE_NAME=="{#INSTANCE_NAME}")].VERSION'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: application
+              trigger_prototypes:
+                -
+                  uuid: 04c24d1e05c34d0a866920ccda944a13
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.version[{#INSTANCE_NAME}],#1)<>last(/zoracle by Zabbix agent 2/oracle.version[{#INSTANCE_NAME}],#2) and length(last(/zoracle by Zabbix agent 2/oracle.version[{#INSTANCE_NAME}]))>0'
+                  name: 'Oracle: Instance {#INSTANCE_NAME} Version has changed'
+                  event_name: 'Oracle: Instance {#INSTANCE_NAME} version has changed (new version received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle Instance Version has changed. Ack to close.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+          trigger_prototypes:
+            -
+              uuid: cfa173d5c6b8491aa64834b35ba44b92
+              expression: 'max(/zoracle by Zabbix agent 2/oracle.redologs.inactive[{#INSTANCE_NAME}],5m) + max(/zoracle by Zabbix agent 2/oracle.redologs.unused[{#INSTANCE_NAME}],5m) < {$ORACLE.REDO.MIN.WARN}'
+              name: 'Oracle: Number of REDO logs available for switching is too low instance "{#INSTANCE_NAME}""'
+              event_name: 'Oracle: Number of REDO logs available for switching is too low (less {$ORACLE.REDO.MIN.WARN} for 5 min)'
+              priority: WARNING
+              description: 'Number of available for log switching inactive/unused REDOs is low (Database down risk)'
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: capacity
+            -
+              uuid: 410c4e8274194978a4fa57af74686b4d
+              expression: |
+                min(/zoracle by Zabbix agent 2/oracle.session_count[{#INSTANCE_NAME}],5m) * 100 / 
+                last(/zoracle by Zabbix agent 2/oracle.session_limit[{#INSTANCE_NAME}]) > {$ORACLE.SESSIONS.MAX.WARN}
+              name: 'Oracle: Too many active sessions'
+              event_name: 'Oracle: Too many active sessions (over {$ORACLE.SESSIONS.MAX.WARN}% for 5 min)'
+              priority: WARNING
+              description: 'Active sessions are using more than {$ORACLE.SESSIONS.MAX.WARN}% of the available sessions.'
+            -
+              uuid: f0df2c75b42d41678a9c050f1338905f
+              expression: 'min(/zoracle by Zabbix agent 2/oracle.datafiles.count[{#INSTANCE_NAME}],5m) * 100 / last(/zoracle by Zabbix agent 2/oracle.db_files_limit[{#INSTANCE_NAME}])> {$ORACLE.DB.FILE.MAX.WARN}'
+              name: 'Oracle: Too many database files'
+              event_name: 'Oracle: Too many database files (over {$ORACLE.DB.FILE.MAX.WARN}% for 5 min)'
+              priority: WARNING
+              description: 'Number of datafiles is higher than {$ORACLE.DB.FILE.MAX.WARN}% of the available datafile files limit.'
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: capacity
+            -
+              uuid: 171d10b98f6c4549b3d25f345b8a022a
+              expression: 'min(/zoracle by Zabbix agent 2/oracle.total_pga_used[{#INSTANCE_NAME}],5m) * 100 / last(/zoracle by Zabbix agent 2/oracle.pga_target[{#INSTANCE_NAME}]) > {$ORACLE.PGA.USE.MAX.WARN}'
+              name: 'Oracle: Total PGA inuse is too high'
+              event_name: 'Oracle: Total PGA inuse is too high (over {$ORACLE.PGA.USE.MAX.WARN}% for 5 min)'
+              priority: WARNING
+              description: 'Total PGA in use is more than {$ORACLE.PGA.USE.MAX.WARN}% of PGA_AGGREGATE_TARGET.'
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: capacity
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
+          lld_macro_paths:
+            -
+              lld_macro: '{#INSTANCE_NAME}'
+              path: $.INSTANCE_NAME
+            -
+              lld_macro: '{#INST_ID}'
+              path: $.INST_ID
+        -
+          uuid: 00b2b3294b594e99afd5865167c60c3b
+          name: 'PDB discovery'
+          type: DEPENDENT
+          key: oracle.pdb.discovery
+          delay: '0'
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#DBNAME}'
+                value: '{$ORACLE.DBNAME.MATCHES}'
+                formulaid: A
+              -
+                macro: '{#DBNAME}'
+                value: '{$ORACLE.DBNAME.NOT_MATCHES}'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          description: 'Scanning PDB in DBMS.'
+          item_prototypes:
+            -
+              uuid: f6b0339a97b64ceba0323ac66a132aae
+              name: 'Oracle PDB ''{#DBNAME}'': Open status'
+              type: DEPENDENT
+              key: 'oracle.pdb_open_mode[{#INST_ID},"{#DBNAME}"]'
+              delay: '0'
+              history: 7d
+              description: '1 - ''MOUNTED'', 2 - ''READ WRITE'', 3 - ''READ ONLY'', 4 - ''READ ONLY WITH APPLY'' (A physical standby database is open in real-time query mode)'
+              valuemap:
+                name: 'Oracle DB open status'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.NAME=="{#DBNAME}" && @.INST_ID=="{#INST_ID}")].OPEN_MODE'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PDB.INFO}"]'
+              tags:
+                -
+                  tag: component
+                  value: database
+                -
+                  tag: database
+                  value: '{#DBNAME}'
+                -
+                  tag: type
+                  value: pdb
+              trigger_prototypes:
+                -
+                  uuid: 0f74f169e7e24ed6846bf7e0b2eef3b4
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.pdb_open_mode[{#INST_ID},"{#DBNAME}"],#1)<>last(/zoracle by Zabbix agent 2/oracle.pdb_open_mode[{#INST_ID},"{#DBNAME}"],#2)'
+                  name: 'Oracle Database ''{#DBNAME}'': Open status has changed'
+                  event_name: 'Oracle Database ''{#DBNAME}'': Open status has changed (new value received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle DB open status has changed. Ack to close.'
+                  manual_close: 'YES'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+                -
+                  uuid: 7f25e9cc89cb4fdc9b80222c86c30106
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.pdb_open_mode[{#INST_ID},"{#DBNAME}"])=1'
+                  name: 'Oracle Database ''{#DBNAME}'': Open status in mount mode'
+                  priority: WARNING
+                  description: 'The Oracle DB has a MOUNTED state.'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.PDB.INFO}"]'
+          lld_macro_paths:
+            -
+              lld_macro: '{#DBNAME}'
+              path: $.NAME
+            -
+              lld_macro: '{#INST_ID}'
+              path: $.INST_ID
+        -
+          uuid: 1b0da91148b544e0a195542904fdc426
+          name: 'Tablespace discovery'
+          type: DEPENDENT
+          key: oracle.tablespace.discovery
+          delay: '0'
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#TABLESPACE_NAME}'
+                value: '{$ORACLE.TABLESPACE.NAME.MATCHES}'
+                formulaid: A
+              -
+                macro: '{#TABLESPACE_NAME}'
+                value: '{$ORACLE.TABLESPACE.NAME.NOT_MATCHES}'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          description: 'Scanning tablespaces in DBMS.'
+          item_prototypes:
+            -
+              uuid: 7501d810f7284fdc8841743ebdf6b0d4
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace allocated, bytes'
+              type: DEPENDENT
+              key: 'oracle.tbs_alloc_bytes["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Currently allocated bytes for tablespace (sum of the current size of datafiles).'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].FILE_BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+            -
+              uuid: 38fcb4f961df4ad8bb8265f9fb08623c
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace free, bytes'
+              type: DEPENDENT
+              key: 'oracle.tbs_free_bytes["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Free bytes of allocated space.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].FREE_BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+            -
+              uuid: b7840072107d4385910e60e6be0b5c64
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace MAX size, bytes'
+              type: DEPENDENT
+              key: 'oracle.tbs_max_bytes["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Maximum size of tablespace.'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].MAXBYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+            -
+              uuid: 55935b17192d48268389ce656f346479
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Open status'
+              type: DEPENDENT
+              key: 'oracle.tbs_status["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Tablespace status. 1 - ''ONLINE'' 2 - ''OFFLINE'' 3- ''READ ONLY'''
+              valuemap:
+                name: 'Oracle tablespace status'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].STATUS'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+              trigger_prototypes:
+                -
+                  uuid: 37d900b561c14aa181ec74bb0aa7fb57
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.tbs_status["{#TABLESPACE_NAME}"])=2'
+                  name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace is OFFLINE'
+                  priority: WARNING
+                  description: 'The tablespace is in the offline state.'
+                  tags:
+                    -
+                      tag: scope
+                      value: availability
+                -
+                  uuid: df99445d62304597aa84068d4af177fa
+                  expression: 'last(/zoracle by Zabbix agent 2/oracle.tbs_status["{#TABLESPACE_NAME}"],#1)<>last(/zoracle by Zabbix agent 2/oracle.tbs_status["{#TABLESPACE_NAME}"],#2)'
+                  name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace status has changed'
+                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace status has changed (new value received: {ITEM.VALUE})'
+                  priority: INFO
+                  description: 'Oracle tablespace status has changed. Ack to close.'
+                  manual_close: 'YES'
+                  dependencies:
+                    -
+                      name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace is OFFLINE'
+                      expression: 'last(/zoracle by Zabbix agent 2/oracle.tbs_status["{#TABLESPACE_NAME}"])=2'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+            -
+              uuid: dccfb4e66c2547b8b837513eac5ca7df
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace used, bytes'
+              type: DEPENDENT
+              key: 'oracle.tbs_used_bytes["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              description: 'Currently used bytes for tablespace (current size of datafiles-free space).'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].USED_BYTES'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+            -
+              uuid: 66641b71cb4243af8b689efcd14fb23e
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage, percent'
+              type: DEPENDENT
+              key: 'oracle.tbs_used_file_pct["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Used bytes/Allocated bytes*100'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].USED_FILE_PCT'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+              trigger_prototypes:
+                -
+                  uuid: 5c2776fbf6774dcfb6878063d0f33886
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_file_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
+                  name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage is too high'
+                  event_name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m).'
+                  priority: HIGH
+                  tags:
+                    -
+                      tag: scope
+                      value: capacity
+                -
+                  uuid: 11043bc677b746ceaa5e641de9e1ab67
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_file_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
+                  name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage is too high'
+                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
+                  priority: WARNING
+                  dependencies:
+                    -
+                      name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage is too high'
+                      expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_file_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
+                  tags:
+                    -
+                      tag: scope
+                      value: capacity
+            -
+              uuid: 317b706c5a1a435593fdfe39eff88646
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace allocated, percent'
+              type: DEPENDENT
+              key: 'oracle.tbs_used_pct["{#TABLESPACE_NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              description: 'Allocated bytes/Max bytes*100'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[?(@.TABLESPACE_NAME=="{#TABLESPACE_NAME}")].USED_PCT_MAX'
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.[0]'
+              master_item:
+                key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.STATS}"]'
+              tags:
+                -
+                  tag: component
+                  value: tablespaces
+                -
+                  tag: contents
+                  value: '{#CONTENTS}'
+                -
+                  tag: tablespace
+                  value: '{#TABLESPACE_NAME}'
+              trigger_prototypes:
+                -
+                  uuid: 9d7cfb30e53c49edae66a979d2ffc9ec
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
+                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high'
+                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
+                  priority: WARNING
+                  dependencies:
+                    -
+                      name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high'
+                      expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
+                  tags:
+                    -
+                      tag: scope
+                      value: capacity
+                -
+                  uuid: 50f6af8ba5d14ae6a6ec45fbe411b472
+                  expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
+                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high'
+                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m).'
+                  priority: HIGH
+                  tags:
+                    -
+                      tag: scope
+                      value: capacity
+          graph_prototypes:
+            -
+              uuid: 7e6c1ea939844766a43cd56fc8218d99
+              name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace ''{#TABLESPACE_NAME}'''
+              graph_items:
+                -
+                  color: 1A7C11
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.tbs_alloc_bytes["{#TABLESPACE_NAME}"]'
+                -
+                  sortorder: '1'
+                  color: 2774A4
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.tbs_max_bytes["{#TABLESPACE_NAME}"]'
+                -
+                  sortorder: '2'
+                  color: F63100
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.tbs_used_bytes["{#TABLESPACE_NAME}"]'
+          master_item:
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.TS.DISCOVERY}"]'
+          lld_macro_paths:
+            -
+              lld_macro: '{#CONTENTS}'
+              path: $.CONTENTS
+            -
+              lld_macro: '{#TABLESPACE_NAME}'
+              path: $.TABLESPACE_NAME
+      tags:
+        -
+          tag: class
+          value: database
+        -
+          tag: target
+          value: oracle
+      macros:
+        -
+          macro: '{$ORACLE.ASM.USED.PCT.MAX.HIGH}'
+          value: '95'
+          description: 'Maximum percentage of used ASM disk group for high trigger expression.'
+        -
+          macro: '{$ORACLE.ASM.USED.PCT.MAX.WARN}'
+          value: '90'
+          description: 'Maximum percentage of used ASM disk group for warning trigger expression.'
+        -
+          macro: '{$ORACLE.CONCURRENCY.MAX.WARN}'
+          value: '80'
+          description: 'Maximum percentage of sessions concurrency usage for trigger expression.'
+        -
+          macro: '{$ORACLE.CONNSTRING}'
+          value: 'tcp://localhost:1521'
+        -
+          macro: '{$ORACLE.DB.FILE.MAX.WARN}'
+          value: '80'
+          description: 'Maximum percentage of database files for trigger expression.'
+        -
+          macro: '{$ORACLE.DBNAME.MATCHES}'
+          value: '.*'
+          description: 'This macro is used in database discovery. It can be overridden on the host or linked template level.'
+        -
+          macro: '{$ORACLE.DBNAME.NOT_MATCHES}'
+          value: PDB\$SEED
+          description: 'This macro is used in database discovery. It can be overridden on a host or linked template level.'
+        -
+          macro: '{$ORACLE.EXPIRE.PASSWORD.MIN.WARN}'
+          value: '7'
+          description: 'Number of days of warning before password expires (for trigger expression).'
+        -
+          macro: '{$ORACLE.PASSWORD}'
+          value: zabbix_password
+          description: 'Oracle user password.'
+        -
+          macro: '{$ORACLE.PGA.USE.MAX.WARN}'
+          value: '90'
+          description: 'Maximum percentage of PGA usage alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.PROCESSES.MAX.WARN}'
+          value: '80'
+          description: 'Maximum percentage of active processes alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.REDO.MIN.WARN}'
+          value: '3'
+          description: 'Minimum number of REDO logs alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.SERVICE}'
+          value: ORA
+          description: 'Oracle Service Name'
+        -
+          macro: '{$ORACLE.SESSION.LOCK.MAX.TIME}'
+          value: '600'
+          description: 'Maximum session lock duration in seconds for count the session as a prolongedly locked query.'
+        -
+          macro: '{$ORACLE.SESSION.LONG.LOCK.MAX.WARN}'
+          value: '3'
+          description: 'Maximum number of the prolongedly locked sessions alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.SESSIONS.LOCK.MAX.WARN}'
+          value: '20'
+          description: 'Maximum percentage of locked sessions alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.SESSIONS.MAX.WARN}'
+          value: '80'
+          description: 'Maximum percentage of active sessions alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.SHARED.FREE.MIN.WARN}'
+          value: '5'
+          description: 'Minimum percentage of free shared pool alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.TABLESPACE.NAME.MATCHES}'
+          value: '.*'
+          description: 'This macro is used in tablespace discovery. It can be overridden on a host or linked template level.'
+        -
+          macro: '{$ORACLE.TABLESPACE.NAME.NOT_MATCHES}'
+          value: CHANGE_IF_NEEDED
+          description: 'This macro is used in tablespace discovery. It can be overridden on a host or linked template level.'
+        -
+          macro: '{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
+          value: '95'
+          description: 'Maximum percentage of used (Used bytes/Allocated bytes) tablespace high severity alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.TBS.USED.PCT.MAX.WARN}'
+          value: '90'
+          description: 'Maximum percentage of used (Used bytes/Allocated bytes) tablespace warning severity alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
+          value: '90'
+          description: 'Maximum percentage of utilization (Allocated bytes/Max bytes) tablespace high severity alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.TBS.UTIL.PCT.MAX.WARN}'
+          value: '80'
+          description: 'Maximum percentage of utilization (Allocated bytes/Max bytes) tablespace warning severity alert threshold (for trigger expression).'
+        -
+          macro: '{$ORACLE.USER}'
+          value: zabbix
+          description: 'Oracle username.'
+        -
+          macro: '{$ZORACLE.ARCHIVE.INFO}'
+          value: 'select inst_id, d.dest_name, decode (d.status,  ''VALID'', 3,  ''DEFERRED'', 2,  ''ERROR'', 1,  0) status, d.log_sequence,  nvl (to_char (d.error), '' '') error from gv$archive_dest d, v$database db where d.status != ''INACTIVE'' and db.log_mode = ''ARCHIVELOG'''
+        -
+          macro: '{$ZORACLE.CDB.INFO}'
+          value: 'select name, decode (open_mode,''MOUNTED'', 1,''READ ONLY'', 2,''READ WRITE'', 3,''READ ONLY WITH APPLY'', 4,''MIGRATE'', 5,0) open_mode, decode (database_role,''SNAPSHOT STANDBY'', 1,''LOGICAL STANDBY'', 2,''PHYSICAL STANDBY'', 3,''PRIMARY'', 4,''FAR SYNC'', 5,0) role, decode (force_logging,''YES'', 1,''NO'', 0,  0) force_logging, decode (log_mode,''NOARCHIVELOG'', 0,''ARCHIVELOG'', 1,''MANUAL'', 2,0) log_mode from v$database'
+        -
+          macro: '{$ZORACLE.DATAFILES.STATS}'
+          value: 'select inst_id, count(*) datafile_num from gv$datafile group by inst_id'
+        -
+          macro: '{$ZORACLE.DISKGROUPS.STATS}'
+          value: 'select name, round (total_mb/ decode (type,  ''EXTERN'', 1,  ''NORMAL'', 2,  ''HIGH'', 3) * 1024 * 1024) total_bytes, round (usable_file_mb * 1024 * 1024) free_bytes, round (100 - (usable_file_mb/ (  total_mb / decode (type,  ''EXTERN'', 1,  ''NORMAL'', 2,  ''HIGH'', 3))) * 100, 2) used_pct from v$asm_diskgroup'
+        -
+          macro: '{$ZORACLE.FRA.STATS}'
+          value: 'select metric, sum (value) as value from (select ''space_limit'' as metric, space_limit as value from v$recovery_file_dest union select ''space_used'', space_used as value from v$recovery_file_dest union select ''space_reclaimable'', space_reclaimable as value from v$recovery_file_dest union select ''number_of_files'', number_of_files as value from v$recovery_file_dest union select ''usable_pct'', round(decode(space_limit,0,0,(100-(100*(space_used - space_reclaimable)/ space_limit))),2) as value from v$recovery_file_dest union select ''restore_point'', count (*) as value from v$restore_point union select t.*, 0 from table (sys.odcivarchar2list (''space_limit'',''space_used'',''space_reclaimable'',''number_of_files'',''usable_pct'')) t)group by metric order by 1'
+        -
+          macro: '{$ZORACLE.INSTANCE.INFO}'
+          value: 'select inst_id, instance_name, host_name, version, floor ((sysdate - startup_time) * 60 * 60 * 24) uptime, decode (status,''STARTED'', 1,''MOUNTED'', 2,''OPEN'', 3,''OPEN MIGRATE'', 4,0) status, decode (archiver,''STOPPED'', 1,''STARTED'', 2,''FAILED'', 3,0) archiver, decode (instance_role,''PRIMARY_INSTANCE'', 1,''SECONDARY_INSTANCE'',2,0) role from gv$instance'
+        -
+          macro: '{$ZORACLE.PDB.INFO}'
+          value: 'select inst_id, name, decode (open_mode, ''MOUNTED'', 1, ''READ ONLY'', 2, ''READ WRITE'', 3, ''READ ONLY WITH APPLY'', 4, ''MIGRATE'', 5, 0) open_mode from gv$pdbs'
+        -
+          macro: '{$ZORACLE.PGA.STATS}'
+          value: 'select inst_id, name, value from gv$pgastat'
+        -
+          macro: '{$ZORACLE.PROC.STATS}'
+          value: 'select inst_id, count(*) proc_num from gv$process group by inst_id'
+        -
+          macro: '{$ZORACLE.REDOLOG.INFO}'
+          value: 'select inst_id, status, sum(cnt) value from (select inst_id, status, count (*) cnt from gv$log group by inst_id, status union all select  inst_id, column_value, 0 from gv$instance, table (sys.odcivarchar2list (''ACTIVE'',''INACTIVE'',''UNUSED''))) group by inst_id, status'
+        -
+          macro: '{$ZORACLE.SESSIONS.STATS}'
+          value: 'select inst_id, metric, sum (value) as value from (select inst_id,lower(replace(status || '' '' || type, '' '', ''_'')) as metric, count (*) as value from gv$session group by inst_id, status, type union select 1, column_value, 0 from table (sys.odcivarchar2list (''inactive_user'',''active_user'',''active_background''))) group by inst_id, metric union select inst_id, ''total'' as metric, count (*) as value from gv$session group by inst_id union select inst_id, ''long_time_locked'' as metric, count (*) as value   from gv$session  where   blocking_session is not null and blocking_session_status = ''VALID'' and seconds_in_wait > :1 group by inst_id union select inst_id, ''lock_rate'',((select count(*) cnt_block from gv$session t2 where blocking_session is not null and t1.inst_id = t2.inst_id) / (select count(*) cnt_all from gv$session t2 where t1.inst_id = t2.inst_id)) * 100 pct from gv$instance t1 union select inst_id,''concurrency_rate''  metric, nvl(round (sum(duty_act.cnt * 100 / (select value from gv$osstat where stat_name = ''NUM_CPU_CORES'' and inst_id = duty_act.inst_id))),0) value from (select inst_id, decode (session_state, ''ON CPU'', ''CPU'', wait_class) wait_class, round (count (*) / (60 * 15), 1) cnt from gv$active_session_history sh where sh.sample_time >= sysdate - 15 / 1440 and decode (session_state, ''ON CPU'', ''CPU'', wait_class) in (''Concurrency'') group by inst_id, decode (session_state, ''ON CPU'', ''CPU'', wait_class)) duty_act group by inst_id'
+        -
+          macro: '{$ZORACLE.SGA.STATS}'
+          value: 'select inst_id, pool, sum (bytes) as bytes from (select inst_id, lower (replace (pool, '' '', ''_'')) as pool, sum (bytes) as bytes from gv$sgastat where pool in (''java pool'', ''large pool'') group by inst_id, pool union select inst_id, ''shared_pool'', sum (bytes) from gv$sgastat where pool = ''shared pool'' and name not in (''library cache'', ''dictionary cache'', ''free memory'',''sql area'') group by inst_id union select inst_id, name, bytes from gv$sgastat where pool is null and name in (''log_buffer'', ''fixed_sga'') union select inst_id, ''buffer_cache'', sum (bytes) from gv$sgastat where pool is null and name in (''buffer_cache'', ''db_block_buffers'') group by inst_id union select inst_id, column_value, 0 from gv$instance, table (sys.odcivarchar2list (''buffer_cache'',''fixed_sga'',''java_pool'',''large_pool'',''log_buffer'',''shared_pool''))) group by inst_id, pool'
+        -
+          macro: '{$ZORACLE.SYS.METRICS}'
+          value: 'select inst_id, metric_name,round(value, 3) value from gv$sysmetric where group_id = decode(:duration,2,2,3)'
+        -
+          macro: '{$ZORACLE.SYS.METRICS.DURATION}'
+          value: '3'
+          description: 'duration60sec = "2", duration15sec = "3"'
+        -
+          macro: '{$ZORACLE.SYS.PARAMS}'
+          value: 'select inst_id, name, value from gv$system_parameter v where name in (''sessions'', ''processes'', ''db_files'')'
+        -
+          macro: '{$ZORACLE.TS.DISCOVERY}'
+          value: 'select tablespace_name, contents from dba_tablespaces'
+        -
+          macro: '{$ZORACLE.TS.STATS}'
+          value: 'select a.tablespace_name, c.contents, a.bytes_alloc file_bytes,maxbytes,nvl (b.bytes_free * block_size,0) free_bytes,bytes_alloc - nvl (b.bytes_free * block_size,0) used_bytes,round (decode (maxbytes,0,0,(bytes_alloc / maxbytes * 100)),2)  used_pct_max,100 - round ( (nvl (b.bytes_free * block_size,0) / a.bytes_alloc) * 100,2)  used_file_pct,decode (c.status,''ONLINE'',1,''OFFLINE'',2,''READ ONLY'',3,0)  status from ( select f.tablespace_name,sum (f.bytes) bytes_alloc,sum (  decode (f.autoextensible,''YES'',greatest (f.maxbytes,f.bytes),''NO'',f.bytes))  maxbytes  from dba_data_files f  group by tablespace_name) a,( select (select t0.name  from v$tablespace t0  where t0.ts#=fs.tablespace_id and rownum<2)  tablespace_name,sum (fs.blocks) bytes_free  from dba_lmt_free_space fs  group by fs.tablespace_id) b,dba_tablespaces c  where a.tablespace_name=b.tablespace_name(+)  and a.tablespace_name=c.tablespace_name union all  select h.tablespace_name,c.contents,round (sum (h.bytes_free + h.bytes_used)) bytes_alloc,sum (  decode (f.autoextensible,''YES'',greatest (f.maxbytes,f.bytes),''NO'',f.bytes)),sum ( (h.bytes_free + h.bytes_used) - nvl (p.bytes_used,0)),sum (nvl (p.bytes_used,0)),round (  decode (  sum (  decode (f.autoextensible,''YES'',greatest (f.maxbytes,f.bytes),''NO'',f.bytes)),0,0,( sum (h.bytes_free + h.bytes_used)  / sum (  decode (f.autoextensible,''YES'',greatest (f.maxbytes,f.bytes),''NO'',f.bytes))  * 100)),2),100  - round (  ( sum ( (h.bytes_free + h.bytes_used) - nvl (p.bytes_used,0))  / sum (h.bytes_used + h.bytes_free))  * 100,2),decode (c.status,''ONLINE'',1,''OFFLINE'',2,''READ ONLY'',3,0)  from (select distinct * from sys.v_$temp_space_header) h,(select distinct * from sys.v_$temp_extent_pool) p,dba_temp_files f,dba_tablespaces c  where p.file_id(+)=h.file_id  and p.tablespace_name(+)=h.tablespace_name  and f.file_id=h.file_id  and f.tablespace_name=h.tablespace_name  and f.tablespace_name=c.tablespace_name group by h.tablespace_name,c.status,c.contents order by 1'
+        -
+          macro: '{$ZORACLE.TS.STATS_ORIGINAL}'
+          value: 'select df.tablespace_name,df.contents,nvl(sum(df.bytes),0)file_bytes,nvl(sum(df.max_bytes),0)max_bytes,nvl(sum(f.free),0)free_bytes,sum(df.bytes)-sum(f.free)used_bytes,round(decode(sum(df.max_bytes),0,0,(sum(df.bytes)/sum(df.max_bytes)*100)),2)used_pct_max,round(decode(sum(df.bytes),0,0,(sum(df.bytes)-sum(f.free))/sum(df.bytes)*100),2)used_file_pct,decode(df.status,''ONLINE'',1,''OFFLINE'',2,''READ ONLY'',3,0)status from(select ddf.file_id,dt.contents,dt.status,ddf.file_name,ddf.tablespace_name,trunc(ddf.bytes)bytes,trunc(greatest(ddf.bytes,ddf.maxbytes))max_bytes from dba_data_files ddf,dba_tablespaces dt where ddf.tablespace_name=dt.tablespace_name)df,(select trunc(sum(bytes))free,file_id from dba_free_space group by file_id)f where df.file_id=f.file_id(+)group by df.tablespace_name,df.contents,df.status union all select y.name tablespace_name,y.contents contents,nvl(sum(y.bytes),0)file_bytes,nvl(sum(y.max_bytes),0)max_bytes,nvl(max(nvl(y.free_bytes,0)),0)free,sum(y.bytes)-max(y.free_bytes) used_bytes,round(decode (sum(y.max_bytes),0,0,(sum(y.bytes)/sum(y.max_bytes)*100)),2) used_pct_max,round(decode(sum(y.bytes),0,0,(sum(y.bytes)-max(y.free_bytes))/sum(y.bytes)*100),2) used_file_pct,decode(y.tbs_status,''ONLINE'',1,''OFFLINE'',2,''READ ONLY'',3,0) status from (select dtf.tablespace_name name,dt.contents,dt.status tbs_status,dtf.status,dtf.bytes bytes,(select((f.total_blocks-s.tot_used_blocks)*vp.value)from(select tablespace_name,sum(used_blocks)tot_used_blocks from gv$sort_segment where tablespace_name!=''DUMMY'' group by tablespace_name)s,(select tablespace_name,sum(blocks)total_blocks from dba_temp_files where tablespace_name!=''DUMMY'' group by tablespace_name)f,(select value from v$parameter where name=''db_block_size'')vp where f.tablespace_name=s.tablespace_name and f.tablespace_name=dtf.tablespace_name)free_bytes,case when dtf.maxbytes=0 then dtf.bytes else dtf.maxbytes end max_bytes from sys.dba_temp_files dtf,sys.dba_tablespaces dt where dtf.tablespace_name=dt.tablespace_name)y group by y.name,y.contents,y.tbs_status'
+        -
+          macro: '{$ZORACLE.USER.INFO}'
+          value: 'select round (decode (sign (nvl (expiry_date, sysdate + 999) - sysdate),-1, 0, nvl (expiry_date, sysdate + 999) - sysdate)) exp_passwd_days_before from dba_users where username = upper(:1)'
+      valuemaps:
+        -
+          uuid: 8e4e5c74684047c3b8ccff831be8c065
+          name: 'Oracle Archivelog status'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: Error
+            -
+              value: '2'
+              newvalue: Deferred
+            -
+              value: '3'
+              newvalue: Valid
+        -
+          uuid: f3a163a32c684ae2bf218dbfc07c90b9
+          name: 'Oracle archiver state'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: Stopped
+            -
+              value: '2'
+              newvalue: Started
+            -
+              value: '3'
+              newvalue: Failed
+        -
+          uuid: 4db75fdb81a442199e43b0d934cbab3d
+          name: 'Oracle DB open status'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: Mounted
+            -
+              value: '2'
+              newvalue: 'Read Only'
+            -
+              value: '3'
+              newvalue: Read-Write
+            -
+              value: '4'
+              newvalue: 'Read Only with Apply'
+        -
+          uuid: 9a013105879d482b95cdc1b1096bf438
+          name: 'Oracle DB role'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: 'Snapshot standby'
+            -
+              value: '2'
+              newvalue: 'Logical standby'
+            -
+              value: '3'
+              newvalue: 'Physical standby'
+            -
+              value: '4'
+              newvalue: Primary
+            -
+              value: '5'
+              newvalue: 'Far sync'
+        -
+          uuid: 6eff7d06c1dc405dbb43eca620cdb6a0
+          name: 'Oracle force log status'
+          mappings:
+            -
+              value: '0'
+              newvalue: 'No'
+            -
+              value: '1'
+              newvalue: 'Yes'
+        -
+          uuid: 64f3832f0eff486f9b56e3e909ae11f1
+          name: 'Oracle instance role'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: Primary
+            -
+              value: '2'
+              newvalue: Secondary
+        -
+          uuid: 8161c73e2247491ca066e834568a0fc0
+          name: 'Oracle instance status'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: Started
+            -
+              value: '2'
+              newvalue: Mounted
+            -
+              value: '3'
+              newvalue: Open
+            -
+              value: '4'
+              newvalue: 'Open migrate'
+        -
+          uuid: 54244a0a5ad8446ea1952e8320377cdf
+          name: 'Oracle log mode'
+          mappings:
+            -
+              value: '0'
+              newvalue: NOARCHIVELOG
+            -
+              value: '1'
+              newvalue: ARCHIVELOG
+            -
+              value: '2'
+              newvalue: MANUAL
+        -
+          uuid: 8ccea24495334e818bc122fd15f2ae0c
+          name: 'Oracle tablespace status'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unknown
+            -
+              value: '1'
+              newvalue: Online
+            -
+              value: '2'
+              newvalue: Offline
+            -
+              value: '3'
+              newvalue: Read-Only
+        -
+          uuid: d30c239142454e3b965bea7d0651f0ac
+          name: 'Service state'
+          mappings:
+            -
+              value: '0'
+              newvalue: Down
+            -
+              value: '1'
+              newvalue: Up
+  graphs:
+    -
+      uuid: 58f341549c6e474b9a62ea4ddbcbe556
+      name: 'Oracle: Datafiles'
+      graph_items:
+        -
+          color: 1A7C11
+          item:
+            host: 'zoracle by Zabbix agent 2'
+            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DATAFILES.STATS}"]'
