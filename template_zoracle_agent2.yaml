@@ -2816,7 +2816,7 @@ zabbix_export:
                   uuid: df99445d62304597aa84068d4af177fa
                   expression: 'last(/zoracle by Zabbix agent 2/oracle.tbs_status["{#TABLESPACE_NAME}"],#1)<>last(/zoracle by Zabbix agent 2/oracle.tbs_status["{#TABLESPACE_NAME}"],#2)'
                   name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace status has changed'
-                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace status has changed (new value received: {ITEM.VALUE})'
+                  event_name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace status has changed (new value received: {ITEM.VALUE})'
                   priority: INFO
                   description: 'Oracle tablespace status has changed. Ack to close.'
                   manual_close: 'YES'
@@ -2904,7 +2904,7 @@ zabbix_export:
                   uuid: 11043bc677b746ceaa5e641de9e1ab67
                   expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_file_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
                   name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage is too high'
-                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
+                  event_name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
                   priority: WARNING
                   dependencies:
                     -
@@ -2949,12 +2949,12 @@ zabbix_export:
                 -
                   uuid: 9d7cfb30e53c49edae66a979d2ffc9ec
                   expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high'
-                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
+                  name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace utilization is too high'
+                  event_name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace utilization is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
                   priority: WARNING
                   dependencies:
                     -
-                      name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high'
+                      name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace utilization is too high'
                       expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
                   tags:
                     -
@@ -2963,8 +2963,8 @@ zabbix_export:
                 -
                   uuid: 50f6af8ba5d14ae6a6ec45fbe411b472
                   expression: 'min(/zoracle by Zabbix agent 2/oracle.tbs_used_pct["{#TABLESPACE_NAME}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high'
-                  event_name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m).'
+                  name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace utilization is too high'
+                  event_name: 'Oracle TBS ''{#TABLESPACE_NAME}'': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m).'
                   priority: HIGH
                   tags:
                     -
