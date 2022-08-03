@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.0'
-  date: '2022-08-03T17:58:47Z'
+  date: '2022-08-03T18:06:13Z'
   groups:
     -
       uuid: 748ad4d098d447d492bb935c907f652f
@@ -2568,6 +2568,22 @@ zabbix_export:
                 -
                   tag: scope
                   value: capacity
+          graph_prototypes:
+            -
+              uuid: 6d36a7d5cf824bea82f374e7995c1415
+              name: 'Oracle: Datafiles'
+              graph_items:
+                -
+                  color: 1A7C11
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.db_files_limit[{#INSTANCE_NAME}]'
+                -
+                  sortorder: '1'
+                  color: F63100
+                  item:
+                    host: 'zoracle by Zabbix agent 2'
+                    key: 'oracle.datafiles.count[{#INSTANCE_NAME}]'
           master_item:
             key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.INSTANCE.INFO}"]'
           lld_macro_paths:
@@ -3321,13 +3337,3 @@ zabbix_export:
             -
               value: '1'
               newvalue: Up
-  graphs:
-    -
-      uuid: 58f341549c6e474b9a62ea4ddbcbe556
-      name: 'Oracle: Datafiles'
-      graph_items:
-        -
-          color: 1A7C11
-          item:
-            host: 'zoracle by Zabbix agent 2'
-            key: 'zoracle.custom.query["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ZORACLE.DATAFILES.STATS}"]'
