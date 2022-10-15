@@ -137,7 +137,9 @@ func (c *ConnManager) housekeeper(ctx context.Context, interval time.Duration) {
 }
 
 // create creates a new connection with given credentials.
-func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
+func (c *ConnManager) create(p *Plugin, uri uri.URI) (*OraConn, error) {
+	p.Tracef("[Connection create] begin")
+
 	c.connMutex.Lock()
 	defer c.connMutex.Unlock()
 
@@ -146,6 +148,7 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 		panic("connection already exists")
 	}
 
+	p.Tracef("[Connection create] trace 1")
 	ctx := godror.ContextWithTraceTag(
 		context.Background(),
 		godror.TraceTag{
@@ -153,7 +156,9 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 			Module:     godror.DriverName,
 		})
 
+	p.Tracef("[Connection create] trace 2")
 	service, err := url.QueryUnescape(uri.GetParam("service"))
+	p.Tracef("[Connection create] trace 3")
 	if err != nil {
 		return nil, err
 	}
@@ -162,6 +167,9 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 		`(CONNECT_DATA=(SERVICE_NAME="%s"))(CONNECT_TIMEOUT=%d)(RETRY_COUNT=0))`,
 		uri.Host(), uri.Port(), service, c.connectTimeout/time.Second)
 
+	p.Tracef("[Connection create] %s", connectString)
+
+	p.Tracef("[Connection create] trace 4")
 	connector := godror.NewConnector(godror.ConnectionParams{
 		StandaloneConnection: true,
 		CommonParams: godror.CommonParams{
@@ -171,12 +179,17 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 		},
 	})
 
+	p.Tracef("[Connection create] trace 5")
 	client := sql.OpenDB(connector)
 
+	p.Tracef("[Connection create] trace 6")
 	serverVersion, err := godror.ServerVersion(ctx, client)
+	p.Tracef("[Connection create] trace 7")
 	if err != nil {
+		p.Tracef("[Connection create] trace 8 error returning...")
 		return nil, err
 	}
+	p.Tracef("[Connection create] trace 9")
 
 	c.connections[uri] = &OraConn{
 		client:         client,
@@ -187,6 +200,8 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 		username:       uri.User(),
 	}
 
+	p.Tracef("[Connection create] created new connection")
+	p.Tracef("[Connection create] %v", uri.Addr())
 	log.Debugf("[%s] Created new connection: %s", pluginName, uri.Addr())
 
 	return c.connections[uri], nil
@@ -206,23 +221,36 @@ func (c *ConnManager) get(uri uri.URI) *OraConn {
 }
 
 // GetConnection returns an existing connection or creates a new one.
-func (c *ConnManager) GetConnection(uri uri.URI) (conn *OraConn, err error) {
+func (c *ConnManager) GetConnection(p *Plugin, uri uri.URI) (conn *OraConn, err error) {
+	p.Tracef("[GetConnection] begining")
 	c.Lock()
+	p.Tracef("[GetConnection] connection locked")
+	
 	defer c.Unlock()
 
+	p.Tracef("[GetConnection] check connection already exists")
 	conn = c.get(uri)
 
 	if conn == nil {
-		conn, err = c.create(uri)
+		p.Tracef("[GetConnection] Connection doesn't exists. Creating ...")
+		conn, err = c.create(p, uri)
 	}
 
 	if err != nil {
+		p.Tracef("[GetConnection] error creating connection")
+		p.Tracef("[GetConnection] %s", err.Error())
+	
 		if oraErr, isOraErr := godror.AsOraErr(err); isOraErr {
+			p.Tracef("[GetConnection] error trace 1")
 			err = zbxerr.ErrorConnectionFailed.Wrap(oraErr)
+			p.Tracef("[GetConnection] error trace 1")
 		} else {
+			p.Tracef("[GetConnection] error trace 2")
 			err = zbxerr.ErrorConnectionFailed.Wrap(err)
+			p.Tracef("[GetConnection] error trace 2")
 		}
 	}
+	p.Tracef("[GetConnection] returning")
 
 	return
 }

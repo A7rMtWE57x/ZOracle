@@ -11,7 +11,10 @@ const (
 )
 
 // pingHandler queries 'SELECT 1 FROM DUAL' and returns pingOk if a connection is alive or pingFailed otherwise.
-func pingHandler(ctx context.Context, conn OraClient, params map[string]string, _ ...string) (interface{}, error) {
+func pingHandler(
+	//mn
+	p *Plugin,
+	ctx context.Context, conn OraClient, params map[string]string, _ ...string) (interface{}, error) {
 	var res int
 
 	row, err := conn.QueryRow(ctx, fmt.Sprintf("SELECT %d FROM DUAL", pingOk))
